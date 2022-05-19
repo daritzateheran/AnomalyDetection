@@ -16,11 +16,6 @@ app = Flask(__name__)
 #   df['z']=(df['z']-s.mean(df['z']))/s.stdev(df['z'])
 #   return df
 
-
-@app.route("/")
-def hola():
-    return("Hola Mundo")
-
 labels = ["ANORMAL","NORMAL"]
 model=load_model('/Model_swr_RawData.h5')
 
@@ -32,18 +27,9 @@ def model_():
     vector_150=ast.literal_eval(value)
     segment=np.reshape(np.array(vector_150), (1,50,3))
      
-    # for i in range(0, 150, 3):
-    #     vector_50.append(vector_150[i:i+3])
-    # segment.append(vector_50)
-    # segment=np.asarray(segment)
-    
     predict = model.predict(segment)
     predict = labels[np.argmax(predict[0])]
 
-    # if predict[0][0]>predict[0][1]:
-    #     predict="ANORMAL"
-    # else:
-    #     predict="NORMAL"
     print("Time = ", time.time() - t)
     print(predict + " TIMESTAMP = " + str(timestamp))
     return (predict + " TIMESTAMP = " + str(timestamp))
