@@ -17,7 +17,7 @@ app = Flask(__name__)
 #   return df
 
 labels = ["ANORMAL","NORMAL"]
-model=load_model('/Model_swr_RawData.h5')
+model=load_model('Modelos/Model_swr_RawData.h5')
 
 @app.route("/post", methods=["POST"])
 def model_():
