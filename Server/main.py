@@ -17,7 +17,8 @@ app = Flask(__name__)
 #   return df
 
 labels = ["ANORMAL","NORMAL"]
-model=load_model('modelos/Model_swr_RawData.h5')
+# model=load_model('/modelos/Model_swr_RawData.h5')
+model=load_model('/home/ubuntu/AnomalyDetection/modelos/Model_swr_RawData.h5')
 
 @app.route("/post", methods=["POST"])
 def model_():
