@@ -49,12 +49,17 @@ def add_caregiver():
     key=request.form['Key']
     name_cg=request.form['contact']
     phone=request.form['numero']
+    
     conn, cur = get_conn()
     cur=conn.cursor()
-    cur.execute(f"INSERT INTO AnomalyData.caregivers (name_caregiver, phone, keyUser) VALUES (%s,%s,%s)",(name_cg, phone, key))
-    conn.commit() #si lo quito no sirve
-    cur.close()
-    return ("Contact added successfully")
+    cur.execute(f"SELECT caregivers.phone, caregivers.keyUser FROM AnomalyData.caregivers WHERE phone='"+phone+"' and keyUser='"+key+"'")
+    if(cur.fetchall()):
+        cur.execute(f"INSERT INTO AnomalyData.caregivers (name_caregiver, phone, keyUser) VALUES (%s,%s,%s)",(name_cg, phone, key))
+        conn.commit() #si lo quito no sirve
+        cur.close()
+        return ("Contact added successfully")
+    else:
+        return ("Caregiver already registered")
 
 @app.route("/post", methods=["POST"])
 def model_():
