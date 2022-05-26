@@ -54,20 +54,18 @@ def add_caregiver():
     cur.execute(f"SELECT caregivers.phone, caregivers.keyUser FROM AnomalyData.caregivers WHERE phone='"+phone+"' and keyUser='"+key+"'")
     conn.commit() #si lo quito no sirve
     datos=cur.fetchall()
-    print(len(datos))
 
-     
     
     if(datos):
+        cur.close()
+        print("Caregiver already registered")
+        return ("Caregiver already registered")
+    else:
         cur.execute(f"INSERT INTO AnomalyData.caregivers (name_caregiver, phone, keyUser) VALUES (%s,%s,%s)",(name_cg, phone, key))
         conn.commit() #si lo quito no sirve
         cur.close()
         print("Contact added successfully")
         return ("Contact added successfully")
-    else:
-        cur.close()
-        print("Caregiver already registered")
-        return ("Caregiver already registered")
        
 
 @app.route("/post", methods=["POST"])
