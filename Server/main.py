@@ -63,7 +63,7 @@ def add_caregiver():
         cur.execute(f"INSERT INTO AnomalyData.caregivers (name_caregiver, phone, keyUser) VALUES (%s,%s,%s)",(name_cg, phone, key))
         conn.commit() #si lo quito no sirve
         cur.close()
-        print("Caregiver already registered")
+        print("Contact added successfully")
         return ("Contact added successfully")
        
 
