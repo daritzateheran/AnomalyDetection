@@ -1,3 +1,4 @@
+from operator import concat
 from flask import Flask, request, g
 from keras.models import load_model
 import ast
@@ -32,9 +33,6 @@ labels = ["ANORMAL","NORMAL"]
 model=load_model('../modelos/Model_swr_RawData.h5')
 #model=load_model('/home/ubuntu/AnomalyDetection/modelos/Model_swr_RawData.h5')
 
-
-
-
 @app.route("/sign", methods=["POST"])
 def sign():
     key=request.form['Key']
@@ -46,6 +44,19 @@ def sign():
     cur.close()
     return (str(datos[0][0]))
 
+@app.route("/add_caregiver", methods=["POST"])
+def add_caregiver():
+    key=request.form['Key']
+    name_cg=request.form['contact']
+    phone=request.form['numero']
+    conn, cur = get_conn()
+    cur=conn.cursor()
+    #f"INSERT INTO {placa} (Latitud, Longitud, Fhora, RPM) VALUES (%s,%s,%s,%s)", (arr[1],arr[2],dt,arr[7])
+    cur.execute(f"INSERT INTO AnomalyData.caregivers (name_caregiver, phone, id_user) VALUES (%s,%s,%s)",(name_cg, phone, ("SELECT users.id_users FROM AnomalyData.users WHERE users.id_key='"+key+"'")))
+    conn.commit() #si lo quito no sirve
+    datos = cur.fetchall()
+    cur.close()
+    return ("Contact added successfully")
 
 @app.route("/post", methods=["POST"])
 def model_():
