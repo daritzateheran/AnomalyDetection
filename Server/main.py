@@ -51,11 +51,12 @@ def add_caregiver():
     phone=request.form['numero']
     conn, cur = get_conn()
     cur=conn.cursor()
-    #f"INSERT INTO {placa} (Latitud, Longitud, Fhora, RPM) VALUES (%s,%s,%s,%s)", (arr[1],arr[2],dt,arr[7])
+    cur.execute(f"SELECT users.id_users FROM AnomalyData.users WHERE users.id_key='"+key+"'")
+    print(cur.fetchall())
     cur.execute(f"INSERT INTO AnomalyData.caregivers (name_caregiver, phone, id_user) VALUES (%s,%s,%s)",(name_cg, phone, ("SELECT users.id_users FROM AnomalyData.users WHERE users.id_key='"+key+"'")))
     conn.commit() #si lo quito no sirve
-    datos = cur.fetchall()
     cur.close()
+
     return ("Contact added successfully")
 
 @app.route("/post", methods=["POST"])
