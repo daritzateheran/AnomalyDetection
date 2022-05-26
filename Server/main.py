@@ -1,8 +1,9 @@
-from flask import Flask, request
+from flask import Flask, request, g
 from keras.models import load_model
 import ast
 import numpy as np
 import time
+import pymysql, os
 
 
 app = Flask(__name__)
@@ -16,9 +17,35 @@ app = Flask(__name__)
 #   df['z']=(df['z']-s.mean(df['z']))/s.stdev(df['z'])
 #   return df
 
+def get_conn():
+    if "conn" not in g:
+        g.conn = pymysql.connect(
+            host=os.getenv('FLASK_DATABASE_HOST'),
+            user=os.getenv('FLASK_DATABASE_USER'),
+            password=os.getenv('FLASK_DATABASE_PASSWORD'),
+            database=os.getenv('FLASK_DATABASE')
+        )
+        g.cur=g.conn.cursor()
+    return g.conn, g.cur
+
 labels = ["ANORMAL","NORMAL"]
-# model=load_model('/modelos/Model_swr_RawData.h5')
-model=load_model('/home/ubuntu/AnomalyDetection/modelos/Model_swr_RawData.h5')
+model=load_model('../modelos/Model_swr_RawData.h5')
+#model=load_model('/home/ubuntu/AnomalyDetection/modelos/Model_swr_RawData.h5')
+
+
+
+
+@app.route("/sign", methods=["POST"])
+def sign():
+    key=request.form['Key']
+    conn, cur = get_conn()
+    cur=conn.cursor()
+    cur.execute(f"SELECT users.ID FROM AnomalyData.users WHERE users.id_key ='"+key+"'")
+    conn.commit() #si lo quito no sirve
+    datos = cur.fetchall()
+    cur.close()
+    return (str(datos[0][0]))
+
 
 @app.route("/post", methods=["POST"])
 def model_():
