@@ -49,8 +49,6 @@ def add_caregiver():
     key=request.form['Key']
     name_cg=request.form['contact']
     phone=request.form['numero']
-    cur.close()
-
     conn, cur = get_conn()
     cur=conn.cursor()
     cur.execute(f"SELECT caregivers.phone, caregivers.keyUser FROM AnomalyData.caregivers WHERE phone='"+phone+"' and keyUser='"+key+"'")
@@ -60,9 +58,11 @@ def add_caregiver():
     if(cur.fetchall()==()):
         cur.execute(f"INSERT INTO AnomalyData.caregivers (name_caregiver, phone, keyUser) VALUES (%s,%s,%s)",(name_cg, phone, key))
         conn.commit() #si lo quito no sirve
+        cur.close()
         print("Contact added successfully")
         return ("Contact added successfully")
     else:
+        cur.close()
         print("Caregiver already registered")
         return ("Caregiver already registered")
        
