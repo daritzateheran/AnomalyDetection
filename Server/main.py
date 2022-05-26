@@ -53,9 +53,10 @@ def add_caregiver():
     cur=conn.cursor()
     cur.execute(f"SELECT caregivers.phone, caregivers.keyUser FROM AnomalyData.caregivers WHERE phone='"+phone+"' and keyUser='"+key+"'")
     conn.commit() #si lo quito no sirve
-    print(cur.fetchall())
-
-    if(cur.fetchall()==()):
+    datos=cur.fetchall()
+    print(datos[0])
+    
+    if(datos[0]):
         cur.execute(f"INSERT INTO AnomalyData.caregivers (name_caregiver, phone, keyUser) VALUES (%s,%s,%s)",(name_cg, phone, key))
         conn.commit() #si lo quito no sirve
         cur.close()
