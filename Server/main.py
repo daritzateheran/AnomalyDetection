@@ -76,6 +76,7 @@ def loadCaregivers():
     cur.execute(f"SELECT  caregivers.phone FROM AnomalyData.caregivers WHERE caregivers.keyUser='"+key+"'")
     conn.commit() #si lo quito no sirve
     phone = cur.fetchall()
+    print(phone)
     #phone = str(re.findall(r"[^\['][\+\d\s]{2,20}[\s]*", phone))[1:-1]
     phone = str(re.findall(r"[^\['][\+\d\s]{2,20}[\s]*", str(phone)))
     print(phone)
