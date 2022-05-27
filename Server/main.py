@@ -55,7 +55,6 @@ def add_caregiver():
     conn.commit() #si lo quito no sirve
     datos=cur.fetchall()
 
-    
     if(datos):
         cur.close()
         print("Caregiver already registered")
@@ -66,7 +65,18 @@ def add_caregiver():
         cur.close()
         print("Contact added successfully")
         return ("Contact added successfully")
-       
+
+@app.route("/loadCaregivers", methods=["POST"])
+def sign():
+    key=request.form['Key']
+    conn, cur = get_conn()
+    cur=conn.cursor()
+    cur.execute(f"SELECT  caregivers.phone FROM AnomalyData.caregivers WHERE caregivers.keyUser='"+key+"'")
+    conn.commit() #si lo quito no sirve
+    datos = cur.fetchall()
+    print(datos)
+    cur.close()
+    return (datos)
 
 @app.route("/post", methods=["POST"])
 def model_():
