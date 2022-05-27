@@ -32,7 +32,7 @@ def get_conn():
     return g.conn, g.cur
 
 labels = ["ANORMAL","NORMAL"]
-model=load_model('../modelos/Model_swr_RawData.h5')
+model=load_model('../modelos/Model_FineTunning_RawData_syntonized.h5')
 #model=load_model('/home/ubuntu/AnomalyDetection/modelos/Model_swr_RawData.h5')
 
 @app.route("/sign", methods=["POST"])
