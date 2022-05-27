@@ -67,7 +67,7 @@ def add_caregiver():
         return ("Contact added successfully")
 
 @app.route("/loadCaregivers", methods=["POST"])
-def sign():
+def loadCaregivers():
     key=request.form['Key']
     conn, cur = get_conn()
     cur=conn.cursor()
