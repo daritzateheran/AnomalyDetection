@@ -74,7 +74,7 @@ def loadCaregivers():
     cur=conn.cursor()
     cur.execute(f"SELECT  caregivers.phone FROM AnomalyData.caregivers WHERE caregivers.keyUser='"+key+"'")
     conn.commit() #si lo quito no sirve
-    datos = cur.fetchall()
+    datos = list(cur.fetchall())
     print(datos.split(','))
     cur.close()
     return (datos.split(','))
