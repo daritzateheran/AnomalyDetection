@@ -77,7 +77,7 @@ def loadCaregivers():
     conn.commit() #si lo quito no sirve
     phone = cur.fetchall()
     #phone = str(re.findall(r"[^\['][\+\d\s]{2,20}[\s]*", phone))[1:-1]
-    phone = str(re.findall(r"[^\['][\+\d\s]{2,20}[\s]*", phone))
+    phone = str(re.findall(r"[^\['][\+\d\s]{2,20}[\s]*", str(phone)))
     print(phone)
     cur.close()
     return (phone)
