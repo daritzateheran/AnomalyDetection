@@ -93,5 +93,10 @@ def model_():
     print(predict + " TIMESTAMP = " + str(timestamp))
     return (predict + " TIMESTAMP = " + str(timestamp))
 
+@app.route('/changes', methods=["POST","GET"]) #git hub
+def pull():
+    os.system('cd /home/ubuntu/AnomalyDetection/Server && git reset --hard && git pull') #esta linea de codigo hace que sea automatico el cambio del codigo si todas las instancias estan prendidas
+    return 'hello'
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True, port=3000)
