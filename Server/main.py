@@ -74,9 +74,9 @@ def loadCaregivers():
     cur.execute(f"SELECT  caregivers.phone FROM AnomalyData.caregivers WHERE caregivers.keyUser='"+key+"'")
     conn.commit() #si lo quito no sirve
     datos = cur.fetchall()
-    print(datos)
+    print(datos.split(','))
     cur.close()
-    return (datos)
+    return (datos.split(','))
 
 @app.route("/post", methods=["POST"])
 def model_():
