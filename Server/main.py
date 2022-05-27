@@ -5,6 +5,7 @@ import ast
 import numpy as np
 import time
 import pymysql, os
+import re 
 
 
 app = Flask(__name__)
@@ -75,7 +76,8 @@ def loadCaregivers():
     cur.execute(f"SELECT  caregivers.phone FROM AnomalyData.caregivers WHERE caregivers.keyUser='"+key+"'")
     conn.commit() #si lo quito no sirve
     phone = cur.fetchall()
-    phone = list(phone)
+    #phone = str(re.findall(r"[^\['][\+\d\s]{2,20}[\s]*", phone))[1:-1]
+    phone = str(re.findall(r"[^\['][\+\d\s]{2,20}[\s]*", phone))
     print(phone)
     cur.close()
     return (phone)
