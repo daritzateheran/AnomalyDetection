@@ -18,6 +18,7 @@ app = Flask(__name__)
 #   df['z']=(df['z']-s.mean(df['z']))/s.stdev(df['z'])
 #   return df
 
+
 def get_conn():
     if "conn" not in g:
         g.conn = pymysql.connect(
